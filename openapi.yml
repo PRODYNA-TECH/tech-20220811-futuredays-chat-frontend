@@ -1,0 +1,218 @@
+openapi: '3.0.2'
+info:
+  title: Futureday Chat
+  version: '1.0'
+
+servers:
+  - url: http://localhost:7071
+    description: local development
+  - url: online-todo
+paths:
+  /api/user:
+    get:
+      description: "List known users application"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/User'
+    post:
+      description: "Add new user to application"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/User'
+        '400':
+          description: Bad Request
+  /api/chat:
+    get:
+      description: "List known chats."
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/Chat'
+    post:
+      description: "Add new chat"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ChatCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/Chat'
+        '400':
+          description: Bad Request
+  /api/chat/{chatId}:
+    parameters:
+      - $ref: '#/components/parameters/chatId'
+    get:
+      description: "one specific chat"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Chat'
+        '404':
+          description: Not Found
+  /api/chat/{chatId}/message:
+    parameters:
+      - $ref: '#/components/parameters/chatId'
+    get:
+      description: "list messages of chat"
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Message'
+        '404':
+          description: Not Found
+    post:
+      description: "Add new message to chat"
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MessageCreate'
+      responses:
+        '201':
+          description: Created
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/Message'
+        '400':
+          description: Bad Request
+      
+components:
+  schemas:
+    User:
+      required:
+        - "name"
+        - "id"
+      type: object
+      properties:
+        id:
+          type: string
+        name:
+          type: string
+    UserCreate:
+      required:
+        - "name"
+        - "password"
+      type: object
+      properties:
+        name:
+          type: string
+        password:
+          type: string
+    Message:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        body:
+          type: string
+        userId:
+          type: string
+          format: uuid
+        chatId:
+          type: string
+          format: uuid
+        createdAtUtc:
+          type: string
+          format: date-time
+      required:
+        - id
+        - body
+        - userId
+        - chatId
+        - createdAtUtc
+    MessageCreate:
+      type: object
+      properties:
+        body:
+          type: string
+        userId:
+          type: string
+          format: uuid
+      required:
+        - body
+        - userId
+    Chat:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        title:
+          type: string
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - id
+        - title
+        - userIds
+    ChatCreate:
+      type: object
+      properties:
+        title:
+          type: string
+        userIds:
+          type: array
+          items:
+            type: string
+            format: uuid
+      required:
+        - id
+        - title
+        - userIds
+  parameters:
+    chatId:
+      in: path
+      name: chatId
+      description: The chat id
+      required: true
+      schema:
+        type: string
+        format: uuid
+
+      
+          

@@ -6,7 +6,12 @@ info:
 servers:
   - url: http://localhost:7071
     description: local development
-  - url: online-todo
+  - url: https://futuredays.azurewebsites.net
+    description: default deployment - you'll probybly need to adapt this
+
+security:
+  - ApiKeyAuth: []
+
 paths:
   /api/user:
     get:
@@ -52,7 +57,7 @@ paths:
                   $ref: '#/components/schemas/Chat'
     post:
       description: "Add new chat"
-      requestBody:
+      requestBody:  
         content:
           application/json:
             schema:
@@ -118,6 +123,11 @@ paths:
           description: Bad Request
       
 components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: x-functions-key
   schemas:
     User:
       required:

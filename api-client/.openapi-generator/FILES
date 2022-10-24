@@ -1,0 +1,12 @@
+.openapi-generator-ignore
+apis/DefaultApi.ts
+apis/index.ts
+index.ts
+models/Chat.ts
+models/ChatCreate.ts
+models/Message.ts
+models/MessageCreate.ts
+models/User.ts
+models/UserCreate.ts
+models/index.ts
+runtime.ts

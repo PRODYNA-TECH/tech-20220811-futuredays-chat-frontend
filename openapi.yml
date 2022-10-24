@@ -16,6 +16,7 @@ paths:
   /api/user:
     get:
       description: "List known users application"
+      operationId: userList
       responses:
         '200':
           description: OK
@@ -27,6 +28,7 @@ paths:
                   $ref: '#/components/schemas/User'
     post:
       description: "Add new user to application"
+      operationId: userCreate
       requestBody:
         content:
           application/json:
@@ -46,6 +48,7 @@ paths:
   /api/chat:
     get:
       description: "List known chats."
+      operationId: chatList
       responses:
         '200':
           description: OK
@@ -57,6 +60,7 @@ paths:
                   $ref: '#/components/schemas/Chat'
     post:
       description: "Add new chat"
+      operationId: chatCreate
       requestBody:  
         content:
           application/json:
@@ -78,6 +82,7 @@ paths:
       - $ref: '#/components/parameters/chatId'
     get:
       description: "one specific chat"
+      operationId: chatRead
       responses:
         '200':
           description: OK
@@ -92,6 +97,7 @@ paths:
       - $ref: '#/components/parameters/chatId'
     get:
       description: "list messages of chat"
+      operationId: messageList
       responses:
         '200':
           description: OK
@@ -105,6 +111,7 @@ paths:
           description: Not Found
     post:
       description: "Add new message to chat"
+      operationId: messageCreate
       requestBody:
         content:
           application/json:

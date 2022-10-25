@@ -58,6 +58,10 @@ export interface MessageListRequest {
     chatId: string;
 }
 
+export interface UserChatListRequest {
+    userId: string;
+}
+
 export interface UserCreateRequest {
     userCreate?: UserCreate;
 }
@@ -236,6 +240,40 @@ export class DefaultApi extends runtime.BaseAPI {
      */
     async messageList(requestParameters: MessageListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Message>> {
         const response = await this.messageListRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
+     * List chats of user
+     */
+    async userChatListRaw(requestParameters: UserChatListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Chat>>> {
+        if (requestParameters.userId === null || requestParameters.userId === undefined) {
+            throw new runtime.RequiredError('userId','Required parameter requestParameters.userId was null or undefined when calling userChatList.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-functions-key"] = this.configuration.apiKey("x-functions-key"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/api/user/{userId}/chat`.replace(`{${"userId"}}`, encodeURIComponent(String(requestParameters.userId))),
+            method: 'GET',
+            headers: headerParameters,
+            query: queryParameters,
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(ChatFromJSON));
+    }
+
+    /**
+     * List chats of user
+     */
+    async userChatList(requestParameters: UserChatListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Chat>> {
+        const response = await this.userChatListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

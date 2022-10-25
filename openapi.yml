@@ -45,6 +45,21 @@ paths:
                   $ref: '#/components/schemas/User'
         '400':
           description: Bad Request
+  /api/user/{userId}/chat:
+    parameters:
+      - $ref: '#/components/parameters/userId'
+    get:
+      description: "List chats of user"
+      operationId: userChatList
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:                
+                  $ref: '#/components/schemas/Chat'
   /api/chat:
     get:
       description: "List known chats."
@@ -233,6 +248,14 @@ components:
       in: path
       name: chatId
       description: The chat id
+      required: true
+      schema:
+        type: string
+        format: uuid
+    userId:
+      in: path
+      name: userId
+      description: The user id
       required: true
       schema:
         type: string

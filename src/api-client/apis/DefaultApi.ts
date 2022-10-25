@@ -41,6 +41,10 @@ export interface ChatCreateRequest {
     chatCreate?: ChatCreate;
 }
 
+export interface ChatListRequest {
+    userId?: string;
+}
+
 export interface ChatReadRequest {
     chatId: string;
 }
@@ -99,8 +103,12 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * List known chats.
      */
-    async chatListRaw(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Chat>>> {
+    async chatListRaw(requestParameters: ChatListRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Chat>>> {
         const queryParameters: any = {};
+
+        if (requestParameters.userId !== undefined) {
+            queryParameters['userId'] = requestParameters.userId;
+        }
 
         const headerParameters: runtime.HTTPHeaders = {};
 
@@ -121,8 +129,8 @@ export class DefaultApi extends runtime.BaseAPI {
     /**
      * List known chats.
      */
-    async chatList(initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Chat>> {
-        const response = await this.chatListRaw(initOverrides);
+    async chatList(requestParameters: ChatListRequest = {}, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Chat>> {
+        const response = await this.chatListRaw(requestParameters, initOverrides);
         return await response.value();
     }
 

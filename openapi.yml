@@ -49,6 +49,13 @@ paths:
     get:
       description: "List known chats."
       operationId: chatList
+      parameters:
+        - in: query
+          name: userId
+          schema:
+            type: string
+            format: uuid
+          description: Filter chats with userId.
       responses:
         '200':
           description: OK

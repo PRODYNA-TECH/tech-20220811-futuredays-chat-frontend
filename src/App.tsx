@@ -4,6 +4,7 @@ import './App.css';
 import {BrowserRouter} from "react-router-dom";
 import Chat from "./pages/Chat/Chat";
 import Login from "./components/Login/Login";
+import ChatList from './components/ChatList/ChatList';
 
 type MyProps = {};
 
@@ -29,6 +30,7 @@ class App extends React.Component<MyProps, MyState> {
             return (
                 <BrowserRouter>
                     <Chat username={this.state.username} />
+                    <ChatList/>
                 </BrowserRouter>
             );
         }else {

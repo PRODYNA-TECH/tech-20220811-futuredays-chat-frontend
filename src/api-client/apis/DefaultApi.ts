@@ -49,6 +49,11 @@ export interface ChatReadRequest {
     chatId: string;
 }
 
+export interface ChatUpdateRequest {
+    chatId: string;
+    chat?: Chat;
+}
+
 export interface MessageCreateRequest {
     chatId: string;
     messageCreate?: MessageCreate;
@@ -173,9 +178,46 @@ export class DefaultApi extends runtime.BaseAPI {
     }
 
     /**
+     * update chat
+     */
+    async chatUpdateRaw(requestParameters: ChatUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Chat>> {
+        if (requestParameters.chatId === null || requestParameters.chatId === undefined) {
+            throw new runtime.RequiredError('chatId','Required parameter requestParameters.chatId was null or undefined when calling chatUpdate.');
+        }
+
+        const queryParameters: any = {};
+
+        const headerParameters: runtime.HTTPHeaders = {};
+
+        headerParameters['Content-Type'] = 'application/json';
+
+        if (this.configuration && this.configuration.apiKey) {
+            headerParameters["x-functions-key"] = this.configuration.apiKey("x-functions-key"); // ApiKeyAuth authentication
+        }
+
+        const response = await this.request({
+            path: `/api/chat/{chatId}`.replace(`{${"chatId"}}`, encodeURIComponent(String(requestParameters.chatId))),
+            method: 'PUT',
+            headers: headerParameters,
+            query: queryParameters,
+            body: ChatToJSON(requestParameters.chat),
+        }, initOverrides);
+
+        return new runtime.JSONApiResponse(response, (jsonValue) => ChatFromJSON(jsonValue));
+    }
+
+    /**
+     * update chat
+     */
+    async chatUpdate(requestParameters: ChatUpdateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Chat> {
+        const response = await this.chatUpdateRaw(requestParameters, initOverrides);
+        return await response.value();
+    }
+
+    /**
      * Add new message to chat
      */
-    async messageCreateRaw(requestParameters: MessageCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Array<Message>>> {
+    async messageCreateRaw(requestParameters: MessageCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<runtime.ApiResponse<Message>> {
         if (requestParameters.chatId === null || requestParameters.chatId === undefined) {
             throw new runtime.RequiredError('chatId','Required parameter requestParameters.chatId was null or undefined when calling messageCreate.');
         }
@@ -198,13 +240,13 @@ export class DefaultApi extends runtime.BaseAPI {
             body: MessageCreateToJSON(requestParameters.messageCreate),
         }, initOverrides);
 
-        return new runtime.JSONApiResponse(response, (jsonValue) => jsonValue.map(MessageFromJSON));
+        return new runtime.JSONApiResponse(response, (jsonValue) => MessageFromJSON(jsonValue));
     }
 
     /**
      * Add new message to chat
      */
-    async messageCreate(requestParameters: MessageCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Array<Message>> {
+    async messageCreate(requestParameters: MessageCreateRequest, initOverrides?: RequestInit | runtime.InitOverrideFunction): Promise<Message> {
         const response = await this.messageCreateRaw(requestParameters, initOverrides);
         return await response.value();
     }

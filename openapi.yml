@@ -1,7 +1,7 @@
-openapi: '3.0.2'
+openapi: "3.0.2"
 info:
   title: Futureday Chat
-  version: '1.0'
+  version: "1.0"
 
 servers:
   - url: http://localhost:7071
@@ -18,14 +18,14 @@ paths:
       description: "List known users application"
       operationId: userList
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items:                
-                  $ref: '#/components/schemas/User'
+                items:
+                  $ref: "#/components/schemas/User"
     post:
       description: "Add new user to application"
       operationId: userCreate
@@ -33,33 +33,33 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/UserCreate'
+              $ref: "#/components/schemas/UserCreate"
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
               schema:
                 type: array
-                items:                
-                  $ref: '#/components/schemas/User'
-        '400':
+                items:
+                  $ref: "#/components/schemas/User"
+        "400":
           description: Bad Request
   /api/user/{userId}/chat:
     parameters:
-      - $ref: '#/components/parameters/userId'
+      - $ref: "#/components/parameters/userId"
     get:
       description: "List chats of user"
       operationId: userChatList
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items:                
-                  $ref: '#/components/schemas/Chat'
+                items:
+                  $ref: "#/components/schemas/Chat"
   /api/chat:
     get:
       description: "List known chats."
@@ -72,64 +72,81 @@ paths:
             format: uuid
           description: Filter chats with userId.
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items:                
-                  $ref: '#/components/schemas/Chat'
+                items:
+                  $ref: "#/components/schemas/Chat"
     post:
       description: "Add new chat"
       operationId: chatCreate
-      requestBody:  
+      requestBody:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/ChatCreate'
+              $ref: "#/components/schemas/ChatCreate"
       responses:
-        '201':
+        "200":
           description: Created
           content:
             application/json:
               schema:
                 type: array
-                items:                
-                  $ref: '#/components/schemas/Chat'
-        '400':
+                items:
+                  $ref: "#/components/schemas/Chat"
+        "400":
           description: Bad Request
   /api/chat/{chatId}:
     parameters:
-      - $ref: '#/components/parameters/chatId'
+      - $ref: "#/components/parameters/chatId"
     get:
       description: "one specific chat"
       operationId: chatRead
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
-                $ref: '#/components/schemas/Chat'
-        '404':
+                $ref: "#/components/schemas/Chat"
+        "404":
+          description: Not Found
+    put:
+      description: "update chat"
+      operationId: chatUpdate
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/Chat"
+      responses:
+        "200":
+          description: Updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Chat"
+        "404":
           description: Not Found
   /api/chat/{chatId}/message:
     parameters:
-      - $ref: '#/components/parameters/chatId'
+      - $ref: "#/components/parameters/chatId"
     get:
       description: "list messages of chat"
       operationId: messageList
       responses:
-        '200':
+        "200":
           description: OK
           content:
             application/json:
               schema:
                 type: array
-                items: 
-                  $ref: '#/components/schemas/Message'
-        '404':
+                items:
+                  $ref: "#/components/schemas/Message"
+        "404":
           description: Not Found
     post:
       description: "Add new message to chat"
@@ -138,19 +155,17 @@ paths:
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/MessageCreate'
+              $ref: "#/components/schemas/MessageCreate"
       responses:
-        '201':
+        "201":
           description: Created
           content:
             application/json:
               schema:
-                type: array
-                items:                
-                  $ref: '#/components/schemas/Message'
-        '400':
+                $ref: "#/components/schemas/Message"
+        "400":
           description: Bad Request
-      
+
 components:
   securitySchemes:
     ApiKeyAuth:
@@ -240,7 +255,6 @@ components:
             type: string
             format: uuid
       required:
-        - id
         - title
         - userIds
   parameters:
@@ -260,6 +274,3 @@ components:
       schema:
         type: string
         format: uuid
-
-      
-          

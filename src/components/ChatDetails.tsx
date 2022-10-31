@@ -1,3 +1,4 @@
+import { Header } from "semantic-ui-react";
 import { Chat } from "../api-client";
 
 type ChatProps = {
@@ -7,7 +8,7 @@ type ChatProps = {
 export default function ChatDetails(props: ChatProps) {
   return (
     <div>
-      <h1>{props.chat ? props.chat.title : ''}</h1>
+      <Header>{props.chat ? props.chat.title : ''}</Header>
     </div>
   );
 }

@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { List } from "semantic-ui-react";
-import { DefaultApi, Message, Chat } from "../api-client";
+import { Feed, List, Message } from "semantic-ui-react";
+import { DefaultApi, Message as Msg, Chat } from "../api-client";
 
 type MessageListProps = {
   apiClient: DefaultApi;
   chat?: Chat;
-  newMessage?: string
+  newMessage?: string;
 };
 
 export default function MessageList(props: MessageListProps) {
-  const [messages, setMessages] = useState<Message[]>([]);
+  const [messages, setMessages] = useState<Msg[]>([]);
 
   useEffect(() => {
     if (props.chat) {
@@ -17,9 +17,17 @@ export default function MessageList(props: MessageListProps) {
     }
   }, [props]);
 
-  const messageFeed = messages.map(message => <List.Item>{message.body}</List.Item>)
+  const messageFeed = messages.map((message) => (
+    <Feed.Event>
+      <Feed.Label>{message.userId.substring(34)}</Feed.Label>
+      <Feed.Content>
+        <Feed.Summary>
+          {message.body}
+          <Feed.Date>{message.createdAtUtc.toLocaleString()}</Feed.Date>
+        </Feed.Summary>
+      </Feed.Content>
+    </Feed.Event>
+  ));
 
-  return <List>
-    {messageFeed}
-  </List>
+  return <Feed>{messageFeed}</Feed>;
 }

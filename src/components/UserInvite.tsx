@@ -53,7 +53,9 @@ export default function UserInvite(props: {
   }
 
   const userItems = users.map((user) => (
-    <List.Item onClick={() => selectUser(user)}>{user.name}</List.Item>
+    <List.Item onClick={() => selectUser(user)} style={{
+      cursor: 'pointer'
+    }}>{user.name}</List.Item>
   ));
   return (
     <div>

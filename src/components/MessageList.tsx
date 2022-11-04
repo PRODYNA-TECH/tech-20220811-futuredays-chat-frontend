@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Feed, List, Message } from "semantic-ui-react";
+import { Feed } from "semantic-ui-react";
 import { DefaultApi, Message as Msg, Chat } from "../api-client";
 
 type MessageListProps = {

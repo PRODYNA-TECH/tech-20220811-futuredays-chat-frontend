@@ -53,10 +53,15 @@ export default function App() {
 
   async function handleChatCreate(chatTitle: string) {
     if (user) {
-      await createChatAsync(chatTitle, user!.id);
-      const chatList = await listChatsAsync(user.id);
-      console.log(chatList);
-      setChatList(chatList);
+      try {
+        await createChatAsync(chatTitle, user!.id);
+        const chatList = await listChatsAsync(user.id);
+        setChatList(chatList);
+      } catch (err) {
+        console.log(err);
+        const chatList = await listChatsAsync(user.id);
+        setChatList(chatList);
+      }
     }
   }
 

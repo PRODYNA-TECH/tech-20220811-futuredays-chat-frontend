@@ -1,32 +1,37 @@
 import { useState } from "react";
 import { Button, Header, Input, Portal, Segment } from "semantic-ui-react";
-import { DefaultApi } from "../api-client";
 
-export default function ChatCreate(props: {
-  apiClient: DefaultApi;
-  userId: string;
-}) {
+interface IChatCreateProps {
+  onChatCreate: (chatTitle: string) => void;
+}
+
+export default function ChatCreate({ onChatCreate }: IChatCreateProps) {
   const [open, setOpen] = useState<boolean>();
-  const [chatTitle, setChatTitle] = useState<string>();
+  const [chatTitle, setChatTitle] = useState<string>("");
 
-  function onInputChange(e: any, data: any) {
+  function handleChatCreate() {
+    setOpen(false);
+    onChatCreate(chatTitle);
+  }
+
+  function handleInputChange(e: any, data: any) {
     setChatTitle(data.value);
   }
+
   function handleClose() {
-    setChatTitle(undefined);
+    setChatTitle("");
     setOpen(false);
-  }
-  async function onChatCreate() {
-    setOpen(false);
-    await props.apiClient.chatCreate({
-      chatCreate: { title: chatTitle!, userIds: [props.userId] },
-    });
-    setChatTitle(undefined);
   }
 
   return (
     <div>
-      <Button onClick={() => setOpen(true)}>Create</Button>
+      <Button
+        className="full-width br-16"
+        color="violet"
+        content="Chat erstellen"
+        size="large"
+        onClick={() => setOpen(true)}
+      />
       <Portal onClose={handleClose} open={open}>
         <Segment
           style={{
@@ -37,10 +42,23 @@ export default function ChatCreate(props: {
           }}
         >
           <Header>Chat Erstellen</Header>
-          <p>Gib dem neuen Chat einen Namen</p>
-          <Input onChange={onInputChange}></Input>
-          <Button content="OK" positive onClick={onChatCreate} />
-          <Button content="Abbrechen" onClick={handleClose} />
+          <div style={{ marginBottom: 12 }}>
+            <p>Wie soll dein Chat heißen?</p>
+            <Input onChange={handleInputChange}></Input>
+          </div>
+          <Button
+            content="Erstellen"
+            className="br-16"
+            color="violet"
+            size="large"
+            onClick={handleChatCreate}
+          />
+          <Button
+            content="Abbrechen"
+            className="br-16"
+            size="large"
+            onClick={handleClose}
+          />
         </Segment>
       </Portal>
     </div>

@@ -1,32 +1,44 @@
-import { useEffect, useState } from "react";
 import { Feed } from "semantic-ui-react";
-import { DefaultApi, Message as Msg, Chat } from "../api-client";
+import { Message, User } from "../api-client";
+import Avatar from "./Avatar";
 
-type MessageListProps = {
-  apiClient: DefaultApi;
-  chat?: Chat;
-  newMessage?: string;
-};
+interface IMessageListProps {
+  messages: Message[];
+  userList: User[];
+}
 
-export default function MessageList(props: MessageListProps) {
-  const [messages, setMessages] = useState<Msg[]>([]);
+export default function MessageList({ messages, userList }: IMessageListProps) {
+  function findUsername(userId: string) {
+    const user = userList.find((user) => user.id === userId);
 
-  useEffect(() => {
-    if (props.chat) {
-      props.apiClient.messageList({ chatId: props.chat.id }).then(setMessages);
+    if (user) {
+      return user.name;
     }
-  }, [props]);
+    return "";
+  }
 
-  const messageFeed = messages.map((message) => (
-    <Feed.Event>
-      <Feed.Label>{message.userId.substring(34)}</Feed.Label>
-      <Feed.Content>
-        <Feed.Summary>
-          {message.body}
-          <Feed.Date>{message.createdAtUtc.toLocaleString()}</Feed.Date>
-        </Feed.Summary>
-      </Feed.Content>
-    </Feed.Event>
+  const messageFeed = messages.map((message, i) => (
+    <Feed>
+      <Feed.Event>
+        <Feed.Content
+          className="feed-content"
+          // className={
+          //   i % 2 == 0 ? "feed-content" : "feed-content feed-content-justified"
+          // }
+        >
+          <div>
+            <Avatar isUserAvatar disableCustomSize />
+            <Feed.User className="feed-user primary">
+              {findUsername(message.userId)}
+            </Feed.User>{" "}
+            <Feed.Summary className="feed-message">{message.body}</Feed.Summary>
+          </div>
+        </Feed.Content>
+        <Feed.Meta className="feed-meta">
+          <Feed.Date>{`${message.createdAtUtc.getHours()}:${message.createdAtUtc.getMinutes()}`}</Feed.Date>
+        </Feed.Meta>
+      </Feed.Event>
+    </Feed>
   ));
 
   return <Feed>{messageFeed}</Feed>;

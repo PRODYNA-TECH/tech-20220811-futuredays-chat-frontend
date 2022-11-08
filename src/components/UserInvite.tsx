@@ -1,79 +1,85 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Button, Header, List, Portal, Segment } from "semantic-ui-react";
-import { Chat, DefaultApi, User } from "../api-client";
+import { User } from "../api-client";
+import Avatar from "./Avatar";
 
-export default function UserInvite(props: {
-  apiClient: DefaultApi;
-  chatId?: string;
-}) {
-  const [users, setUsers] = useState<User[]>([]);
+interface IUserInviteProps {
+  chatUsers: string[];
+  userList: User[];
+  onAddChatUser: (user: User) => void;
+}
+
+export default function UserInvite({
+  chatUsers,
+  userList,
+  onAddChatUser,
+}: IUserInviteProps) {
   const [user, setUser] = useState<User>();
-  const [chat, setChat] = useState<Chat>();
 
-  useEffect(() => {
-    (async () => {
-      if (props.chatId) {
-        const c = await props.apiClient.chatRead({ chatId: props.chatId });
-        setChat(c);
-      }
-    })();
-  }, [props]);
-
-  useEffect(() => {
-    (async () => {
-      if (chat) {
-        const usersFromApi = await props.apiClient.userList();
-        const filtered = usersFromApi.filter(
-          (user) => !chat.userIds.find((userId) => userId === user.id)
-        );
-        setUsers(filtered);
-      }
-    })();
-  }, [props.apiClient, chat]);
-
-  function selectUser(select: User) {
-    setUser(select);
-  }
-  function handleClose() {
-    setUser(undefined);
-  }
-  async function addUser() {
-    if (user && chat) {
-      const updated = await props.apiClient.chatUpdate({
-        chatId: chat.id,
-        chat: {
-          id: chat.id,
-          title: chat.title,
-          userIds: chat.userIds.concat(user.id),
-        },
-      });
-      setChat(updated);
+  function handleAddChatUser() {
+    if (user) {
+      onAddChatUser(user);
       setUser(undefined);
     }
   }
 
-  const userItems = users.map((user) => (
-    <List.Item onClick={() => selectUser(user)} style={{
-      cursor: 'pointer'
-    }}>{user.name}</List.Item>
+  function selectUser(select: User) {
+    setUser(select);
+  }
+
+  function handleClose() {
+    setUser(undefined);
+  }
+
+  const userForSelection = userList.filter(
+    (user) => !chatUsers.includes(user.id)
+  );
+
+  const userListItems = userForSelection.map((user) => (
+    <List.Item
+      className="chat-list-item"
+      key={user.id}
+      onClick={() => selectUser(user)}
+      style={{
+        cursor: "pointer",
+      }}
+    >
+      <Avatar />
+      <Header className="chat-list-item-label" size="tiny">
+        {user.name}
+      </Header>
+    </List.Item>
   ));
+
   return (
     <div>
-      <List>{userItems}</List>
+      <List>{userListItems}</List>
       <Portal onClose={handleClose} open={!!user}>
         <Segment
           style={{
-            left: "40%",
-            position: "fixed",
+            left: "38%",
+            position: "absolute",
             top: "50%",
             zIndex: 1000,
           }}
+          size="large"
         >
           <Header>Hinzufügen</Header>
           <p>Willst du {user?.name} zum Chat hinzufügen?</p>
 
-          <Button content="Ja" positive onClick={addUser} />
-          <Button content="Nein" onClick={handleClose} />
+          <Button
+            content="Ja"
+            className="br-16"
+            color="violet"
+            size="large"
+            onClick={handleAddChatUser}
+          />
+          <Button
+            content="Nein"
+            className="br-16"
+            size="large"
+            onClick={handleClose}
+          />
         </Segment>
       </Portal>
     </div>

@@ -124,7 +124,7 @@ export default function App() {
               'user' ist ein objekt mit mehreren Eigenschaften. Eine Eigenschaft davon ist der Name des Benutzers.
               Mit user.name kannst du im Code auf den namen zugreifen.
           */}
-          <Header size="large">Hallo {'Aufgabe 2'}</Header>
+          <Header size="large">Hallo {user.name}</Header>
 
           {/* Aufgabe 3 - Logout 
 

@@ -140,7 +140,7 @@ export default function App() {
             className="br-16"
             color="violet"
             size="large"
-            onClick={() => alert('Aufgabe 3')}
+            onClick={logout}
           >
             Logout
           </Button>

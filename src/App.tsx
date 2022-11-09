@@ -213,6 +213,7 @@ export default function App() {
                     - onSendMessage: diese Methode wird aufgerufen, senn due auf 'Senden' klickst
                       => hier musst du auf die Methode namens 'handleSendMessage' verweisen
                 */}
+                <MessageCreate onSendMessage={handleSendMessage} />
                 
               </Grid.Column>
               <Grid.Column className="grid-w-4 no-shadow" width="4">

@@ -229,6 +229,7 @@ export default function App() {
                         => verweise auf die bereits bestehende Liste mit demselben Namen.
                   */}
                   <Header size="large">Teilnehmer</Header>
+                  <UserList users={chatMembers} />
                   
                   {/* Aufgabe 9 - Benutzer hinzufügen
 

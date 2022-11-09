@@ -182,6 +182,7 @@ export default function App() {
                   Hinweis:
                   Auch das hast du bereits bei ChatList gemacht ;)
               */}
+              <ChatCreate onChatCreate={handleChatCreate} />
               
             </div>
           </Grid.Column>

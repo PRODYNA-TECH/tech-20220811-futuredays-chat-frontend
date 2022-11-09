@@ -1,4 +1,4 @@
-import { Header, List } from "semantic-ui-react";
+import { Header, Icon, List } from "semantic-ui-react";
 import { Chat } from "../api-client";
 import Avatar from "./Avatar";
 
@@ -15,7 +15,7 @@ export default function ChatList({ chatList, setActiveChat }: IChatListProps) {
       as="a"
       onClick={() => setActiveChat(chat)}
     >
-      <Avatar isUserAvatar />
+      <Icon name="chat" size="large"/>
       <Header className="chat-list-item-label" size="tiny">
         {chat.title}
       </Header>

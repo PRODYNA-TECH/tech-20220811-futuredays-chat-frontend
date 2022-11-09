@@ -24,8 +24,9 @@ export default function App() {
   const [user, setUser] = useState<User>();
   const [userList, setUserList] = useState<User[]>();
   const [activeChat, setActiveChat] = useState<Chat>();
-  const [chatList, setChatList] = useState<Chat[]>();
-  const [chatUsers, setChatUsers] = useState<string[]>();
+  const [chatList, setChatList] = useState<Chat[]>()
+  const [chatMembers, setChatMembers] = useState<User[]>();
+  const [chatNoMembers, setChatNoMembers] = useState<User[]>();
   const [messages, setMessages] = useState<Message[]>();
 
   useEffect(() => {
@@ -44,7 +45,10 @@ export default function App() {
 
   useEffect(() => {
     if (activeChat) {
-      setChatUsers(activeChat.userIds);
+      listUsersAsync().then((users) => {
+        setChatMembers(users.filter((user) => activeChat.userIds.includes(user.id)))
+        setChatNoMembers(users.filter((user) => !activeChat.userIds.includes(user.id)))
+      });
       listChatMessagesAsync(activeChat?.id).then((messages) =>
         setMessages(messages)
       );
@@ -96,7 +100,8 @@ export default function App() {
     setUserList(undefined);
     setChatList(undefined);
     setActiveChat(undefined);
-    setChatUsers(undefined);
+    setChatMembers(undefined);
+    setChatNoMembers(undefined);
     setMessages(undefined);
   }
 
@@ -125,7 +130,7 @@ export default function App() {
             </div>
           </Grid.Column>
 
-          {activeChat && messages && userList && chatUsers ? (
+          {activeChat && messages && chatMembers && chatNoMembers && userList ? (
             <>
               <Grid.Column
                 className="wrapper br-32 bg-white no-shadow"
@@ -138,11 +143,10 @@ export default function App() {
               <Grid.Column className="grid-w-4 no-shadow" width="4">
                 <div className="wrapper br-32 bg-white">
                   <Header size="large">Teilnehmer</Header>
-                  <UserList chatUsers={chatUsers} userList={userList} />
+                  <UserList users={chatMembers} />
                   <Header size="large">Hinzufügen</Header>
                   <UserInvite
-                    chatUsers={chatUsers}
-                    userList={userList}
+                    users={chatNoMembers}
                     onAddChatUser={handleAddChatUser}
                   />
                 </div>

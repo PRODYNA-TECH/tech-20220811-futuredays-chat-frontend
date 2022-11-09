@@ -3,16 +3,11 @@ import { User } from "../api-client";
 import Avatar from "./Avatar";
 
 interface IUserListProps {
-  chatUsers: string[];
-  userList: User[];
+  users: User[];
 }
 
-export default function UserList({ chatUsers, userList }: IUserListProps) {
-  const currentChatUsers = userList.filter((user) =>
-    chatUsers.includes(user.id)
-  );
-
-  const userListItems = currentChatUsers.map((user) => (
+export default function UserList({ users }: IUserListProps) {
+  const userListItems = users.map((user) => (
     <List.Item className="chat-list-item" key={user.id}>
       <Avatar isUserAvatar />
       <Header className="chat-list-item-label" size="tiny">

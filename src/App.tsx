@@ -120,7 +120,7 @@ export default function App() {
 
               Hinweis:
               Du brauchst nur 'Aufgabe 2' mit dem richtigen Code zu ersetzen.
-              
+
               'user' ist ein objekt mit mehreren Eigenschaften. Eine Eigenschaft davon ist der Name des Benutzers.
               Mit user.name kannst du im Code auf den namen zugreifen.
           */}
@@ -264,7 +264,7 @@ export default function App() {
 
             Und sowieso: Wann immer es zu knifflig ist, frage einen Profi - sie helfen gerne!
         */}
-        <Login onLogin={(name) => alert("Hallo " + name)} />
+        <Login onLogin={login} />
       </Container>
     );
   }

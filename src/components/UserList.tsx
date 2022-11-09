@@ -9,7 +9,7 @@ interface IUserListProps {
 export default function UserList({ users }: IUserListProps) {
   const userListItems = users.map((user) => (
     <List.Item className="chat-list-item" key={user.id}>
-      <Avatar isUserAvatar />
+      <Avatar avatarUrl={user.avatarUrl} />
       <Header className="chat-list-item-label" size="tiny">
         {user.name}
       </Header>

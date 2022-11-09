@@ -16,6 +16,15 @@ export default function MessageList({ messages, userList }: IMessageListProps) {
     }
     return "";
   }
+  
+  function findAvatarUrl(userId: string) {
+    const user = userList.find((user) => user.id === userId);
+
+    if (user) {
+      return user.avatarUrl;
+    }
+    return "";
+  }
 
   const messageFeed = messages.map((message, i) => (
     <Feed>
@@ -27,7 +36,7 @@ export default function MessageList({ messages, userList }: IMessageListProps) {
           // }
         >
           <div>
-            <Avatar isUserAvatar disableCustomSize />
+            <Avatar avatarUrl={findAvatarUrl(message.userId)} disableCustomSize />
             <Feed.User className="feed-user primary">
               {findUsername(message.userId)}
             </Feed.User>{" "}

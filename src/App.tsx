@@ -116,7 +116,7 @@ export default function App() {
           </Button>
         </div>
 
-        <Grid divided className="grid-container">
+        <Grid divided className="grid-container bg-main">
           <Grid.Column className="grid-w-4 no-shadow" width="4">
             <div className="wrapper br-32 bg-white">
               <Header size="large">Chats</Header>
@@ -125,19 +125,18 @@ export default function App() {
             </div>
           </Grid.Column>
 
-          <Grid.Column className="wrapper br-32 bg-white no-shadow" width="8">
-            {activeChat && messages && userList && (
-              <>
+          {activeChat && messages && userList && chatUsers ? (
+            <>
+              <Grid.Column
+                className="wrapper br-32 bg-white no-shadow"
+                width="8"
+              >
                 <Header size="large">{activeChat.title}</Header>
                 <MessageList messages={messages} userList={userList} />
                 <MessageCreate onSendMessage={handleSendMessage} />
-              </>
-            )}
-          </Grid.Column>
-          <Grid.Column className="grid-w-4 no-shadow" width="4">
-            <div className="wrapper br-32 bg-white">
-              {chatUsers && userList && (
-                <>
+              </Grid.Column>
+              <Grid.Column className="grid-w-4 no-shadow" width="4">
+                <div className="wrapper br-32 bg-white">
                   <Header size="large">Teilnehmer</Header>
                   <UserList chatUsers={chatUsers} userList={userList} />
                   <Header size="large">Hinzufügen</Header>
@@ -146,10 +145,14 @@ export default function App() {
                     userList={userList}
                     onAddChatUser={handleAddChatUser}
                   />
-                </>
-              )}
-            </div>
-          </Grid.Column>
+                </div>
+              </Grid.Column>
+            </>
+          ) : (
+            <Grid.Column className="br-32  no-shadow" width="8">
+              <Header size="large">Wähle ein Chat aus</Header>
+            </Grid.Column>
+          )}
         </Grid>
       </Container>
     );

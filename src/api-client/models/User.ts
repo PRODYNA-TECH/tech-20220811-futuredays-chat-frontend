@@ -31,6 +31,12 @@ export interface User {
      * @memberof User
      */
     name: string;
+    /**
+     * 
+     * @type {string}
+     * @memberof User
+     */
+    avatarUrl?: string;
 }
 
 /**
@@ -56,6 +62,7 @@ export function UserFromJSONTyped(json: any, ignoreDiscriminator: boolean): User
         
         'id': json['id'],
         'name': json['name'],
+        'avatarUrl': !exists(json, 'avatarUrl') ? undefined : json['avatarUrl'],
     };
 }
 
@@ -70,6 +77,7 @@ export function UserToJSON(value?: User | null): any {
         
         'id': value.id,
         'name': value.name,
+        'avatarUrl': value.avatarUrl,
     };
 }
 

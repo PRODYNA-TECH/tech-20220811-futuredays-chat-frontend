@@ -167,6 +167,7 @@ export default function App() {
                   Du hast so etwas ähnliches bereits in den vorangehenden Aufgaben gemacht (s. onClick)
               */}
               <Header size="large">Chats</Header>
+              <ChatList chatList={chatList!} setActiveChat={setActiveChat} />
               
               {/* Aufgabe 8 - Chat erzeugen
 

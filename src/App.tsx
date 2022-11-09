@@ -24,8 +24,9 @@ export default function App() {
   const [user, setUser] = useState<User>();
   const [userList, setUserList] = useState<User[]>();
   const [activeChat, setActiveChat] = useState<Chat>();
-  const [chatList, setChatList] = useState<Chat[]>();
-  const [chatUsers, setChatUsers] = useState<string[]>();
+  const [chatList, setChatList] = useState<Chat[]>()
+  const [chatMembers, setChatMembers] = useState<User[]>();
+  const [chatNoMembers, setChatNoMembers] = useState<User[]>();
   const [messages, setMessages] = useState<Message[]>();
 
   useEffect(() => {
@@ -44,7 +45,10 @@ export default function App() {
 
   useEffect(() => {
     if (activeChat) {
-      setChatUsers(activeChat.userIds);
+      listUsersAsync().then((users) => {
+        setChatMembers(users.filter((user) => activeChat.userIds.includes(user.id)))
+        setChatNoMembers(users.filter((user) => !activeChat.userIds.includes(user.id)))
+      });
       listChatMessagesAsync(activeChat?.id).then((messages) =>
         setMessages(messages)
       );
@@ -97,7 +101,8 @@ export default function App() {
     setUserList(undefined);
     setChatList(undefined);
     setActiveChat(undefined);
-    setChatUsers(undefined);
+    setChatMembers(undefined);
+    setChatNoMembers(undefined);
     setMessages(undefined);
   }
 
@@ -188,7 +193,7 @@ export default function App() {
             </div>
           </Grid.Column>
 
-          {activeChat && messages && userList && chatUsers ? (
+          {activeChat && messages && chatMembers && chatNoMembers && userList ? (
             <>
               <Grid.Column
                 className="wrapper br-32 bg-white no-shadow"
@@ -227,24 +232,22 @@ export default function App() {
                       Wer ist denn eigentlich alles bei diesem Chat mit dabei?
 
                       Füge eine Zeile nach <Header .../> den Baustein <UserList .../> ein. Hier sind die folgenden Eigendschften benötigt:
-                      - chatUsers: Eine Liste der Identitäten der im Chat beteiligten Personen.
-                        => hier kannst du die Liste mit dem selben Namen übergeben.
+                      - users: Eine Liste der der im Chat beteiligten Personen.
+                        => hier kannst du die Liste 'chatMembers' übergeben.
                       - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
                         => verweise auf die bereits bestehende Liste mit demselben Namen.
                   
                         TODO: remove UserList 
                   */}
                   <Header size="large">Teilnehmer</Header>
-                  <UserList chatUsers={chatUsers} userList={userList} />
+                  <UserList users={chatMembers} />
                   {/* Aufgabe 9 - Benutzer hinzufügen
 
                       Natürlich möchten wir auch andere Benutzer zu dem gewählten Chat hinzufügen können.
 
                       Füge nach <Header .../> den Baustein <UserInvite .../> ein. Hier sind die folgenden Eigendschften benötigt:
-                      - chatUsers: Eine Liste der Identitäten der im Chat beteiligten Personen.
-                        => hier kannst du die Liste mit dem selben Namen übergeben.
-                      - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
-                        => verweise auf die bereits bestehende Liste mit demselben Namen.
+                      - users: Eine Liste der NICHT im Chat beteiligten Personen.
+                        => hier kannst du die Liste 'chatNoMembers' übergeben.
                       - onAddChatUser: Diese Funktion wird aufgerufen, wenn du einen neuen Benutzer hinzufügen willst.
                         => verweise auf die Funktion 'handleAddChatUSer'
 
@@ -252,8 +255,7 @@ export default function App() {
                    */}
                   <Header size="large">Hinzufügen</Header>
                   <UserInvite
-                    chatUsers={chatUsers}
-                    userList={userList}
+                    users={chatNoMembers}
                     onAddChatUser={handleAddChatUser}
                   />
                 </div>

@@ -4,14 +4,12 @@ import { User } from "../api-client";
 import Avatar from "./Avatar";
 
 interface IUserInviteProps {
-  chatUsers: string[];
-  userList: User[];
+  users: User[];
   onAddChatUser: (user: User) => void;
 }
 
 export default function UserInvite({
-  chatUsers,
-  userList,
+  users,
   onAddChatUser,
 }: IUserInviteProps) {
   const [user, setUser] = useState<User>();
@@ -31,11 +29,7 @@ export default function UserInvite({
     setUser(undefined);
   }
 
-  const userForSelection = userList.filter(
-    (user) => !chatUsers.includes(user.id)
-  );
-
-  const userListItems = userForSelection.map((user) => (
+  const userListItems = users.map((user) => (
     <List.Item
       className="chat-list-item"
       key={user.id}

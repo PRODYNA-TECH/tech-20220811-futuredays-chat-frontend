@@ -1,13 +1,13 @@
 import React from "react";
 
 interface IAvatarProps {
-  isUserAvatar?: boolean;
+  avatarUrl?: string;
   disableCustomSize?: boolean;
 }
 
 export default function Avatar({
   disableCustomSize,
-  isUserAvatar = false,
+  avatarUrl,
 }: IAvatarProps) {
   const userAvatar =
     "https://react.semantic-ui.com/images/avatar/small/elliot.jpg";
@@ -20,7 +20,7 @@ export default function Avatar({
       alt=""
       className="ui avatar image"
       style={disableCustomSize ? {} : { height: 40, width: 40 }}
-      src={isUserAvatar ? userAvatar : plusIcon}
+      src={avatarUrl ? avatarUrl : plusIcon}
     />
   );
 }

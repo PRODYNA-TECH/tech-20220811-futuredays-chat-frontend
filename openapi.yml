@@ -183,6 +183,8 @@ components:
           type: string
         name:
           type: string
+        avatarUrl:
+          type: string
     UserCreate:
       required:
         - "name"

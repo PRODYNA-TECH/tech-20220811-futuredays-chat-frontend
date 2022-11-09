@@ -168,7 +168,7 @@ export default function App() {
               */}
               <Header size="large">Chats</Header>
               <ChatList chatList={chatList!} setActiveChat={setActiveChat} />
-              
+
               {/* Aufgabe 8 - Chat erzeugen
 
                   Wir können nun nachrichten in den bestehenden Chat schreiben. Natürlich möchten wir auch neue Chats erzeugen können.
@@ -203,6 +203,7 @@ export default function App() {
                       => auch hier kannst du auf die bereits bestehende 
                 */}
                 <Header size="large">{activeChat.title}</Header>
+                <MessageList messages={messages} userList={userList} />
 
                 {/* Aufgabe 6 - Nachricht schreiben
 

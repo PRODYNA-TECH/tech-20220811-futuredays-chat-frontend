@@ -80,6 +80,7 @@ export default function App() {
     }
   }
 
+  // Aufgabe 1 - login
   async function login(username: string) {
     const userList = await listUsersAsync();
     const filtered = userList.filter((user) => user.name === username);
@@ -104,8 +105,35 @@ export default function App() {
     return (
       <Container className="chat-container">
         <div className="chat-header bg-main">
+          {/* Aufgabe 2 - Benutzername 
+              
+              Wenn der Benutzer bekannt ist - das wird oben im if(user) überprüft - wird nun dieser Teil eingeblendet. 
+              Deswegen sieh die Seite nun komplett anders aus.
+          
+              Stelle nun den Benutzername dar: Hallo <BENUTZERNAME>.  
+              <BENUTZERNAME> steht für den Namen, den du für die Anmeldung genutzt hast. 
+
+              Hinweis:
+              Du brauchst nur 'Aufgabe 2' mit dem richtigen Code zu ersetzen.
+              'user' ist ein objekt mit mehreren Eigenschaften. Eine Eigenschaft davon ist der Name des Benutzers.
+              Mit user.name kannst du im Code auf den namen zugreifen.
+
+              TODO: Hallo {'Aufgabe 2'}
+          */}
           <Header size="large">Hallo {user.name}</Header>
 
+          {/* Aufgabe 3 - Logout 
+
+              Nun möchten wir uns wieder Abmelden können. 
+              Im Moment passiert noch nichts, ausser dass wieder ein Fenster erscheint.
+              
+              Ändere den Code so, dass die Methode mit dem namen 'logout' aufgerufen wird, wenn du den Kopf drückst.
+              
+              Hinweis:
+              Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
+
+              TODO: {alert('Aufgabe 3')}
+          */}
           <Button
             className="br-16"
             color="violet"
@@ -119,8 +147,43 @@ export default function App() {
         <Grid divided className="grid-container bg-main">
           <Grid.Column className="grid-w-4 no-shadow" width="4">
             <div className="wrapper br-32 bg-white">
+              {/* Aufgabe 4 - Chat Liste
+
+                  Nun möchten wir hier die Chats darstellen, bei welchen du dabei bist. Die Überschrift ist bereits da. 
+                  
+                  Deine Aufgabe ist es nun die <ChatList .../> unter <Header .../> einzufügen. Die ... sind bloss Plazuhalter für diese Beschreibung.
+
+                  ChatList ist eine vorgefertigter Baustein - in der Fachsprache 'Komponente' genannt - welchen du benutzen kannst.
+                  
+                  Damit das Programm dann zufrieden ist, musst du dem Baustein noch zwei Eigenschaften, bei den ..., mitgeben:
+                  - chatList: ist eine Liste mit den Chate, bei welchen du dabei bist
+                    => füge hier die bereits existierende liste namens chatList ein - ja, die heissen gleich
+                  - setActiveChat: ist eine Methode die aufgerufen wird, wenn du einen Chat in der Liste anklickst
+                    => füge hier diie bereits existierende Methode namens setActiveChat ein - ja, auch die heissen gleich ;)
+
+                  Hinweis:
+                  Du hast so etwas änliches bereits in den vorangehenden Aufgaben gemacht (s. onClick)
+
+                  TODO: remove chatList
+
+              */}
               <Header size="large">Chats</Header>
               <ChatList chatList={chatList!} setActiveChat={setActiveChat} />
+              {/* Aufgabe 8 - Chat erzeugen
+
+                  Wir können nun nachrichten in den bestehenden Chat schreiben. Natürlich möchten wir auch neue Chats erzeugen können.
+
+                  Füge nach diesem Kommentar und vor </div> den Baustein <ChatCreate .../> ein.
+
+                  Auch hier müssen wir, bei den ..., eine Eigenschaft hinschreiben:
+                  - onChatCreate: wir aufgerufen wenn der benutzer den namen für den neuen Chat eingegeben hat und auf 'Erstellen' geklickt hat
+                    => verweise hier auf die bestehende Methode handleChatCreate
+                  
+                  Hinweis:
+                  Auch das hast du bereits bei ChatList gemacht ;)
+
+                  TODO: remove ChatCreate
+              */}
               <ChatCreate onChatCreate={handleChatCreate} />
             </div>
           </Grid.Column>
@@ -131,14 +194,62 @@ export default function App() {
                 className="wrapper br-32 bg-white no-shadow"
                 width="8"
               >
+                {/* Aufgabe 5 - Meldungen auflisten
+                
+                    Nun möchten wir gerne sehen, welche Meldungen in dem gewählten Chat da sind. Der Titel vom chat wird bersits angezeigt.
+
+                    Füge nun nach <Header .../> in einer neuen Zeile den Baustein <MessageList .../> ein. Gib die beiden Eigenschften mit:
+                    - messages: die liste der meldungen, die angezeigt werden sollen
+                      => verweise hier auf die bereist bestehende liste namens 'messages'
+                    - userList: die Liste der Chat Teilnehmer
+                      => auch hier kannst du auf die bereits bestehende 
+
+                    TODO remove MessageList
+                */}
                 <Header size="large">{activeChat.title}</Header>
                 <MessageList messages={messages} userList={userList} />
+                {/* Aufgabe 6 - Nachricht schreiben
+
+                    Was ist schon ein Chat, wenn man keine Nachrichten posten kann? Das müssen wir ändern!
+
+                    Füge eine Zeile vor </Grid.Column> den Baustein <MessageCreate .../> ein. Dieser benötigt eine Eigenschaft:
+                    - onSentMessage: diese Methode wird aufgerufen, senn due auf 'Senden' klickst
+                      => hier musst du auf die Methode namens 'handleSendMessage' verweisen
+
+                    TODO remove Message Create
+                */}
                 <MessageCreate onSendMessage={handleSendMessage} />
               </Grid.Column>
               <Grid.Column className="grid-w-4 no-shadow" width="4">
                 <div className="wrapper br-32 bg-white">
+                  {/* Aufgabe 7 - Teilnehmer
+                      
+                      Wer ist denn eigentlich alles bei diesem Chat mit dabei?
+
+                      Füge eine Zeile nach <Header .../> den Baustein <UserList .../> ein. Hier sind die folgenden Eigendschften benötigt:
+                      - chatUsers: Eine Liste der Identitäten der im Chat beteiligten Personen.
+                        => hier kannst du die Liste mit dem selben Namen übergeben.
+                      - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
+                        => verweise auf die bereits bestehende Liste mit demselben Namen.
+                  
+                        TODO: remove UserList 
+                  */}
                   <Header size="large">Teilnehmer</Header>
                   <UserList chatUsers={chatUsers} userList={userList} />
+                  {/* Aufgabe 9 - Benutzer hinzufügen
+
+                      Natürlich möchten wir auch andere Benutzer zu dem gewählten Chat hinzufügen können.
+
+                      Füge nach <Header .../> den Baustein <UserInvite .../> ein. Hier sind die folgenden Eigendschften benötigt:
+                      - chatUsers: Eine Liste der Identitäten der im Chat beteiligten Personen.
+                        => hier kannst du die Liste mit dem selben Namen übergeben.
+                      - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
+                        => verweise auf die bereits bestehende Liste mit demselben Namen.
+                      - onAddChatUser: Diese Funktion wird aufgerufen, wenn du einen neuen Benutzer hinzufügen willst.
+                        => verweise auf die Funktion 'handleAddChatUSer'
+
+                      TODO: remove UserInvite
+                   */}
                   <Header size="large">Hinzufügen</Header>
                   <UserInvite
                     chatUsers={chatUsers}
@@ -159,6 +270,17 @@ export default function App() {
   } else {
     return (
       <Container>
+        {/* Aufgabe 1 - Login
+
+            Hier wird jetzt das Fenster angezeigt, sobald du den Knopf drückst.
+            
+            Ändere den Inhalt in {} so, dass die Methode mit dem Namen 'login' aufgerufen wird und nicht mehr alert.
+
+            Hinweis:
+            Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
+
+            TODO: alert('Aufgabe 1')
+        */}
         <Login onLogin={login} />
       </Container>
     );

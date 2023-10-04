@@ -3,8 +3,8 @@ import { Chat, Configuration, DefaultApi } from "./api-client";
 
 const apiClient = new DefaultApi(
   new Configuration({
-    apiKey: "kWF0t3ZgQf_yaew97ac5-NW29g2O8FTGUr2CIVcVWW-FAzFu544F6Q==",
-    basePath: "https://futuredays.azurewebsites.net",
+    apiKey: "-HVJ6BwAHlOOiaQRYIWA-0vWtvSD2JGJLeKm6M199JbwAzFuhWnfDg==",
+    basePath: "https://futureday.azurewebsites.net",
   })
 );
 

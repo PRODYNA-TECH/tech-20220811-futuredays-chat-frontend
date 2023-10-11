@@ -25,7 +25,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "generate": "openapi-generator-cli generate -i openapi.yml -g typescript-fetch -o src/api-client"
+    "generate": "openapi-generator-cli generate -i openapi.yml -g typescript-fetch -o src/api-client",
+    "remove-solutions": "node tools/listTasks.js"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +51,7 @@
     "@types/lodash": "^4.14.188",
     "@vitejs/plugin-react": "^4.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "vite": "^4.4.10"
+    "vite": "^4.4.10",
+    "fast-glob": "^3.3.1"
   }
 }

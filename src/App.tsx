@@ -1,6 +1,6 @@
+import React from "react";
 import "./App.css";
 import "semantic-ui-css/semantic.min.css";
-
 import { useEffect, useState } from "react";
 import { User, Chat, Message } from "./api-client";
 import { Button, Container, Grid, Header } from "semantic-ui-react";

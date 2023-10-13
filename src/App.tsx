@@ -19,12 +19,13 @@ import {
   listChatsAsync,
   listUsersAsync,
 } from "./api";
+import React from "react";
 
 export default function App() {
   const [user, setUser] = useState<User>();
   const [userList, setUserList] = useState<User[]>();
   const [activeChat, setActiveChat] = useState<Chat>();
-  const [chatList, setChatList] = useState<Chat[]>()
+  const [chatList, setChatList] = useState<Chat[]>();
   const [chatMembers, setChatMembers] = useState<User[]>();
   const [chatNoMembers, setChatNoMembers] = useState<User[]>();
   const [messages, setMessages] = useState<Message[]>();
@@ -46,8 +47,12 @@ export default function App() {
   useEffect(() => {
     if (activeChat) {
       listUsersAsync().then((users) => {
-        setChatMembers(users.filter((user) => activeChat.userIds.includes(user.id)))
-        setChatNoMembers(users.filter((user) => !activeChat.userIds.includes(user.id)))
+        setChatMembers(
+          users.filter((user) => activeChat.userIds.includes(user.id))
+        );
+        setChatNoMembers(
+          users.filter((user) => !activeChat.userIds.includes(user.id))
+        );
       });
       listChatMessagesAsync(activeChat?.id).then((messages) =>
         setMessages(messages)
@@ -113,7 +118,7 @@ export default function App() {
           {/* Aufgabe 2 - Benutzername 
               
               Wenn der Benutzer bekannt ist - das wird oben im if(user) überprüft - wird nun dieser Teil eingeblendet. 
-              Deswegen sieh die Seite nun komplett anders aus.
+              Deswegen sieht die Seite nun komplett anders aus.
           
               Stelle nun den Benutzername dar: Hallo <BENUTZERNAME>.  
               <BENUTZERNAME> steht für den Namen, den du für die Anmeldung genutzt hast. 
@@ -122,10 +127,13 @@ export default function App() {
               Du brauchst nur 'Aufgabe 2' mit dem richtigen Code zu ersetzen.
               'user' ist ein objekt mit mehreren Eigenschaften. Eine Eigenschaft davon ist der Name des Benutzers.
               Mit user.name kannst du im Code auf den namen zugreifen.
-
-              TODO: Hallo {'Aufgabe 2'}
           */}
+          {/* Lösung 2 - start */}
           <Header size="large">Hallo {user.name}</Header>
+          {/* Lösung 2 - end */}
+          {/* Platzhalter 2
+          <Header size="large">Hallo {'Aufgabe 2'}</Header>
+          */}
 
           {/* Aufgabe 3 - Logout 
 
@@ -136,9 +144,8 @@ export default function App() {
               
               Hinweis:
               Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
-
-              TODO: {alert('Aufgabe 3')}
           */}
+          {/* Lösung 3 - start */}
           <Button
             className="br-16"
             color="violet"
@@ -147,16 +154,28 @@ export default function App() {
           >
             Logout
           </Button>
+          {/* Lösung 3 - end */}
+          {/* Replace 3
+          <Button 
+            className="br-16" 
+            color="violet" 
+            size="large" 
+            onClick={alert('Aufgabe 3')}
+          >
+            Logout
+          </Button>
+          */}
         </div>
 
         <Grid divided className="grid-container bg-main">
           <Grid.Column className="grid-w-4 no-shadow" width="4">
             <div className="wrapper br-32 bg-white">
+              <Header size="large">Chats</Header>
               {/* Aufgabe 4 - Chat Liste
 
                   Nun möchten wir hier die Chats darstellen, bei welchen du dabei bist. Die Überschrift ist bereits da. 
                   
-                  Deine Aufgabe ist es nun die <ChatList .../> unter <Header .../> einzufügen. Die ... sind bloss Plazuhalter für diese Beschreibung.
+                  Deine Aufgabe ist es nun die <ChatList .../> im Lösungsbereich einzufügen. Die ... sind bloss Plazuhalter für diese Beschreibung.
 
                   ChatList ist eine vorgefertigter Baustein - in der Fachsprache 'Komponente' genannt - welchen du benutzen kannst.
                   
@@ -169,16 +188,16 @@ export default function App() {
                   Hinweis:
                   Du hast so etwas änliches bereits in den vorangehenden Aufgaben gemacht (s. onClick)
 
-                  TODO: remove chatList
-
               */}
-              <Header size="large">Chats</Header>
+              {/* Lösung 4 - start */}
               <ChatList chatList={chatList!} setActiveChat={setActiveChat} />
+              {/* Lösung 4 - end */}
+
               {/* Aufgabe 8 - Chat erzeugen
 
                   Wir können nun nachrichten in den bestehenden Chat schreiben. Natürlich möchten wir auch neue Chats erzeugen können.
 
-                  Füge nach diesem Kommentar und vor </div> den Baustein <ChatCreate .../> ein.
+                  Füge imLösungsbereich den Baustein <ChatCreate .../> ein.
 
                   Auch hier müssen wir, bei den ..., eine Eigenschaft hinschreiben:
                   - onChatCreate: wir aufgerufen wenn der benutzer den namen für den neuen Chat eingegeben hat und auf 'Erstellen' geklickt hat
@@ -187,51 +206,59 @@ export default function App() {
                   Hinweis:
                   Auch das hast du bereits bei ChatList gemacht ;)
 
-                  TODO: remove ChatCreate
               */}
+              {/* Lösung 8 - start */}
               <ChatCreate onChatCreate={handleChatCreate} />
+              {/* Lösung 8 - end */}
             </div>
           </Grid.Column>
 
-          {activeChat && messages && chatMembers && chatNoMembers && userList ? (
+          {activeChat &&
+          messages &&
+          chatMembers &&
+          chatNoMembers &&
+          userList ? (
             <>
               <Grid.Column
                 className="wrapper br-32 bg-white no-shadow"
                 width="8"
               >
+                <Header size="large">{activeChat.title}</Header>
                 {/* Aufgabe 5 - Meldungen auflisten
                 
                     Nun möchten wir gerne sehen, welche Meldungen in dem gewählten Chat da sind. Der Titel vom chat wird bersits angezeigt.
 
-                    Füge nun nach <Header .../> in einer neuen Zeile den Baustein <MessageList .../> ein. Gib die beiden Eigenschften mit:
+                    Füge nun im Lösungsbereich den Baustein <MessageList .../> ein. Gib die beiden Eigenschften mit:
                     - messages: die liste der meldungen, die angezeigt werden sollen
                       => verweise hier auf die bereist bestehende liste namens 'messages'
                     - userList: die Liste der Chat Teilnehmer
                       => auch hier kannst du auf die bereits bestehende 
-
-                    TODO remove MessageList
                 */}
-                <Header size="large">{activeChat.title}</Header>
+                {/* Lösung 5 - start */}
                 <MessageList messages={messages} userList={userList} />
+                {/* Lösung 5 - end */}
+
                 {/* Aufgabe 6 - Nachricht schreiben
 
                     Was ist schon ein Chat, wenn man keine Nachrichten posten kann? Das müssen wir ändern!
 
-                    Füge eine Zeile vor </Grid.Column> den Baustein <MessageCreate .../> ein. Dieser benötigt eine Eigenschaft:
+                    Füge im Lösungsbereich den Baustein <MessageCreate .../> ein. Dieser benötigt eine Eigenschaft:
                     - onSentMessage: diese Methode wird aufgerufen, senn due auf 'Senden' klickst
                       => hier musst du auf die Methode namens 'handleSendMessage' verweisen
-
-                    TODO remove Message Create
                 */}
+                {/* Lösung 6 - start */}
                 <MessageCreate onSendMessage={handleSendMessage} />
+                {/* Lösung 6 - end */}
+
               </Grid.Column>
               <Grid.Column className="grid-w-4 no-shadow" width="4">
                 <div className="wrapper br-32 bg-white">
+                  <Header size="large">Teilnehmer</Header>
                   {/* Aufgabe 7 - Teilnehmer
                       
                       Wer ist denn eigentlich alles bei diesem Chat mit dabei?
 
-                      Füge eine Zeile nach <Header .../> den Baustein <UserList .../> ein. Hier sind die folgenden Eigendschften benötigt:
+                      Füge eine Zeile im Lösungsberich den Baustein <UserList .../> ein. Hier sind die folgenden Eigendschften benötigt:
                       - users: Eine Liste der der im Chat beteiligten Personen.
                         => hier kannst du die Liste 'chatMembers' übergeben.
                       - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
@@ -239,25 +266,27 @@ export default function App() {
                   
                         TODO: remove UserList 
                   */}
-                  <Header size="large">Teilnehmer</Header>
+                  {/* Lösung 7 - start */}
                   <UserList users={chatMembers} />
+                  {/* Lösung 7 - end */}
+
+                  <Header size="large">Hinzufügen</Header>
                   {/* Aufgabe 9 - Benutzer hinzufügen
 
                       Natürlich möchten wir auch andere Benutzer zu dem gewählten Chat hinzufügen können.
 
-                      Füge nach <Header .../> den Baustein <UserInvite .../> ein. Hier sind die folgenden Eigendschften benötigt:
+                      Füge nach den Baustein <UserInvite .../> im Lösungsbereich ein. Hier sind die folgenden Eigenschften benötigt:
                       - users: Eine Liste der NICHT im Chat beteiligten Personen.
                         => hier kannst du die Liste 'chatNoMembers' übergeben.
                       - onAddChatUser: Diese Funktion wird aufgerufen, wenn du einen neuen Benutzer hinzufügen willst.
                         => verweise auf die Funktion 'handleAddChatUSer'
-
-                      TODO: remove UserInvite
-                   */}
-                  <Header size="large">Hinzufügen</Header>
+                  */}
+                  {/* Lösung 9 - start */}
                   <UserInvite
                     users={chatNoMembers}
                     onAddChatUser={handleAddChatUser}
                   />
+                  {/* Lösung 9 - end */}
                 </div>
               </Grid.Column>
             </>
@@ -280,10 +309,13 @@ export default function App() {
 
             Hinweis:
             Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
-
-            TODO: alert('Aufgabe 1')
         */}
+        {/* Lösung 1 - start */}
         <Login onLogin={login} />
+        {/* Lösung 1 - end */}
+        {/* Replace 1
+        <Login onLogin={alert('Aufgabe 1')} />
+        */}
       </Container>
     );
   }

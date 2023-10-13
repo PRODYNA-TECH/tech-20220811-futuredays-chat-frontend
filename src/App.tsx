@@ -89,7 +89,6 @@ export default function App() {
     }
   }
 
-  // Aufgabe 1 - login
   async function login(username: string) {
     const userList = await listUsersAsync();
     const filtered = userList.filter((user) => user.name === username);
@@ -226,7 +225,7 @@ export default function App() {
                 <Header size="large">{activeChat.title}</Header>
                 {/* Aufgabe 5 - Meldungen auflisten
                 
-                    Nun möchten wir gerne sehen, welche Meldungen in dem gewählten Chat da sind. Der Titel vom chat wird bersits angezeigt.
+                    Nun möchten wir gerne sehen, welche Meldungen in dem gewählten Chat da sind. Der Titel vom chat wird bereits angezeigt.
 
                     Füge nun im Lösungsbereich den Baustein <MessageList .../> ein. Gib die beiden Eigenschften mit:
                     - messages: die liste der meldungen, die angezeigt werden sollen
@@ -243,7 +242,7 @@ export default function App() {
                     Was ist schon ein Chat, wenn man keine Nachrichten posten kann? Das müssen wir ändern!
 
                     Füge im Lösungsbereich den Baustein <MessageCreate .../> ein. Dieser benötigt eine Eigenschaft:
-                    - onSentMessage: diese Methode wird aufgerufen, senn due auf 'Senden' klickst
+                    - onSentMessage: diese Methode wird aufgerufen, wenn du auf 'Senden' klickst
                       => hier musst du auf die Methode namens 'handleSendMessage' verweisen
                 */}
                 {/* Lösung 6 - start */}
@@ -261,10 +260,8 @@ export default function App() {
                       Füge eine Zeile im Lösungsberich den Baustein <UserList .../> ein. Hier sind die folgenden Eigendschften benötigt:
                       - users: Eine Liste der der im Chat beteiligten Personen.
                         => hier kannst du die Liste 'chatMembers' übergeben.
-                      - userList: Die Liste mit Informationien über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
+                      - userList: Die Liste mit Informationen über sämtliche Benutzer. Hier sind auch die Namen für die Anzeige enthalten.
                         => verweise auf die bereits bestehende Liste mit demselben Namen.
-                  
-                        TODO: remove UserList 
                   */}
                   {/* Lösung 7 - start */}
                   <UserList users={chatMembers} />
@@ -279,7 +276,7 @@ export default function App() {
                       - users: Eine Liste der NICHT im Chat beteiligten Personen.
                         => hier kannst du die Liste 'chatNoMembers' übergeben.
                       - onAddChatUser: Diese Funktion wird aufgerufen, wenn du einen neuen Benutzer hinzufügen willst.
-                        => verweise auf die Funktion 'handleAddChatUSer'
+                        => verweise auf die Funktion 'handleAddChatUser'
                   */}
                   {/* Lösung 9 - start */}
                   <UserInvite
@@ -314,7 +311,7 @@ export default function App() {
         <Login onLogin={login} />
         {/* Lösung 1 - end */}
         {/* Replace 1
-        <Login onLogin={alert('Aufgabe 1')} />
+        <Login onLogin={alert('HIER')} />
         */}
       </Container>
     );

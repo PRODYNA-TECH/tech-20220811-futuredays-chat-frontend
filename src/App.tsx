@@ -130,9 +130,9 @@ export default function App() {
           {/* Lösung 2 - start */}
           <Header size="large">Hallo {user.name}</Header>
           {/* Lösung 2 - end */}
-          {/* Platzhalter 2
+          {/* Example 2
           <Header size="large">Hallo {'Aufgabe 2'}</Header>
-          */}
+          Example 2 */}
 
           {/* Aufgabe 3 - Logout 
 
@@ -154,7 +154,7 @@ export default function App() {
             Logout
           </Button>
           {/* Lösung 3 - end */}
-          {/* Replace 3
+          {/* Example 3
           <Button 
             className="br-16" 
             color="violet" 
@@ -163,7 +163,7 @@ export default function App() {
           >
             Logout
           </Button>
-          */}
+          Example 3 */}
         </div>
 
         <Grid divided className="grid-container bg-main">
@@ -310,9 +310,9 @@ export default function App() {
         {/* Lösung 1 - start */}
         <Login onLogin={login} />
         {/* Lösung 1 - end */}
-        {/* Replace 1
+        {/* Example 1
         <Login onLogin={alert('HIER')} />
-        */}
+        Example 1 */}
       </Container>
     );
   }

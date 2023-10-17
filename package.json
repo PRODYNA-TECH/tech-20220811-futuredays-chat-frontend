@@ -52,6 +52,7 @@
     "@vitejs/plugin-react": "^4.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
     "fast-glob": "^3.3.1",
+    "replace-in-file": "^7.0.1",
     "ts-node": "^10.9.1",
     "vite": "^4.4.10"
   }

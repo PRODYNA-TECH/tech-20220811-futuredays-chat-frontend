@@ -1,5 +1,7 @@
 import fg from "fast-glob";
 import fs from "fs";
+import * as os from "os";
+import replaceInFile from "replace-in-file";
 
 type Filename = string;
 type TaskId = string;
@@ -83,7 +85,48 @@ async function findSolution(
 
 async function storeToTempFile(tasks: Record<TaskId, TaskDefinition>) {
   const contents = JSON.stringify(tasks, null, 2);
-  await fs.promises.writeFile("temp.json", contents);
+  await fs.promises.writeFile(tmpFilePath(), contents);
 }
 
-searchFiles().then(console.log).catch(console.error);
+function tmpFilePath() {
+  return `${os.tmpdir()}/tasks.json`;
+}
+
+//searchFiles().then(console.log).catch(console.error);
+/*
+searchFiles()
+  .then(storeToTempFile)
+  .catch(console.error)
+  .finally(() => console.log(`stored to ${tmpFilePath()}`));
+
+*/
+
+
+
+async function cleanupFiles(tasks: Record<TaskId, TaskDefinition>) {
+  for (const task in tasks) {
+    const file = tasks[task].file;
+    const solution = tasks[task].solution;
+    const example = tasks[task].example;
+
+    const replacement = example ? example.content : '';
+
+    if (solution) {
+      await replaceInFile.replaceInFile({
+        files: file,
+        from: solution.content,
+        to: replacement,
+      });
+    }
+
+    if (example) {
+      await replaceInFile.replaceInFile({
+        files: file,
+        from: example.block,
+        to: '',
+      });
+    }
+  }
+}
+
+searchFiles().then(cleanupFiles).catch(console.error);

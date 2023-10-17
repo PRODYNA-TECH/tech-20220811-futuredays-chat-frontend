@@ -7,7 +7,7 @@ type TaskId = string;
 type Example = {
   block: string;
   content: string;
-}
+};
 
 type Solution = { block: string; content: string };
 
@@ -27,16 +27,16 @@ async function searchFiles(): Promise<Record<TaskId, TaskDefinition>> {
   for (const file of files) {
     const contents = await fs.promises.readFile(file, "utf8");
     const lines = contents.split("\n");
-    const matches = lines.flatMap((line: any) => line.match(taskPattern));
 
-    if (matches.length > 0) {
-      // for every match, store the match as key and the files in the value array
-      for (const match of matches) {
-        if (match) {
-          if (!tasks[match]) {
-            tasks[match] = { id: match, file };
-          }
+    for (const line of lines) {
+      const matches = line.match(taskPattern);
+      if (matches) {
+        const taskId = matches[1];
+        if (!tasks[taskId]) {
+          tasks[taskId] = { id: taskId, file };
+        }
 
+        for (const match of matches) {
           const example = await findExample(match, file);
           if (example) {
             tasks[match].example = example;
@@ -59,21 +59,31 @@ async function findExample(
   file: Filename
 ): Promise<Example | null> {
   const contents = await fs.promises.readFile(file, "utf8");
-  const pattern = new RegExp(String.raw`\{\/\* Example ${taskId}\n([\s\S]*)\n\s*Example ${taskId}.*\}`);
+  const pattern = new RegExp(
+    String.raw`\{\/\* Example ${taskId}\n([\s\S]*)\n\s*Example ${taskId}.*\}`
+  );
   const matches = contents.match(pattern);
   if (matches) {
-    return {block: matches[0], content: matches[1]};
+    return { block: matches[0], content: matches[1] };
   }
 }
 
-async function findSolution(taskId: TaskId, file: Filename): Promise<Solution | null> {
+async function findSolution(
+  taskId: TaskId,
+  file: Filename
+): Promise<Solution | null> {
   const contents = await fs.promises.readFile(file, "utf8");
   const regex = String.raw`\{\/\* Lösung ${taskId} - start .*\*\/\}\n([\s\S]*)\n\s*\{\/\* Lösung ${taskId} - end .*\*\/\}`;
   const pattern = new RegExp(regex);
   const matches = contents.match(pattern);
   if (matches) {
-    return {block: matches[0], content: matches[1]};
+    return { block: matches[0], content: matches[1] };
   }
+}
+
+async function storeToTempFile(tasks: Record<TaskId, TaskDefinition>) {
+  const contents = JSON.stringify(tasks, null, 2);
+  await fs.promises.writeFile("temp.json", contents);
 }
 
 searchFiles().then(console.log).catch(console.error);

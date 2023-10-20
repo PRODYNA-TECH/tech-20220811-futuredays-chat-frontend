@@ -26,7 +26,7 @@
     "build": "vite build",
     "serve": "vite preview",
     "generate": "openapi-generator-cli generate -i openapi.yml -g typescript-fetch -o src/api-client",
-    "remove-solutions": "ts-node --cwd tools listTasks.ts"
+    "build-solutions": "ts-node --cwd tools buildSolutions.ts"
   },
   "eslintConfig": {
     "extends": [

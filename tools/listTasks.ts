@@ -2,6 +2,11 @@ import fg from "fast-glob";
 import fs from "fs";
 import * as os from "os";
 import replaceInFile from "replace-in-file";
+import { exec } from "child_process";
+import { promisify } from "util";
+
+
+const execPromise = promisify(exec);
 
 type Filename = string;
 type TaskId = string;
@@ -129,4 +134,18 @@ async function cleanupFiles(tasks: Record<TaskId, TaskDefinition>) {
   }
 }
 
-searchFiles().then(cleanupFiles).catch(console.error);
+//searchFiles().then(cleanupFiles).catch(console.error);
+
+async function listGitBranches(): Promise<string[]> {
+  const { stdout } = await execPromise("git branch -a");
+  return stdout.split("\n").map((line) => line.trim());
+}
+
+async function switchGitBranch(branch: string) {
+  const { stdout } = await execPromise(`git switch ${branch}`);
+  return stdout.split("\n").map((line) => line.trim());
+}
+
+listGitBranches().then(console.log).catch(console.error);
+switchGitBranch('main').then(console.log).catch(console.error);
+switchGitBranch('feature/solution-tooling').then(console.log).catch(console.error);

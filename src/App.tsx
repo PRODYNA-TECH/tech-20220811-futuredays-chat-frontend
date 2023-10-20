@@ -124,6 +124,7 @@ export default function App() {
 
               Hinweis:
               Du brauchst nur 'Aufgabe 2' mit dem richtigen Code zu ersetzen.
+
               'user' ist ein objekt mit mehreren Eigenschaften. Eine Eigenschaft davon ist der Name des Benutzers.
               Mit user.name kannst du im Code auf den namen zugreifen.
           */}
@@ -242,7 +243,7 @@ export default function App() {
                     Was ist schon ein Chat, wenn man keine Nachrichten posten kann? Das müssen wir ändern!
 
                     Füge im Lösungsbereich den Baustein <MessageCreate .../> ein. Dieser benötigt eine Eigenschaft:
-                    - onSentMessage: diese Methode wird aufgerufen, wenn du auf 'Senden' klickst
+                    - onSendMessage: diese Methode wird aufgerufen, wenn du auf 'Senden' klickst
                       => hier musst du auf die Methode namens 'handleSendMessage' verweisen
                 */}
                 {/* Lösung 6 - start */}
@@ -305,7 +306,10 @@ export default function App() {
             Ändere den Inhalt in {} so, dass die Methode mit dem Namen 'login' aufgerufen wird und nicht mehr alert.
 
             Hinweis:
-            Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
+            Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onLogin={HIER} steht.
+            
+            Wichtig: 
+            Wann immer es zu knifflig wird, frage einen Profi. Wir helfen gerne weiter.
         */}
         {/* Lösung 1 - start */}
         <Login onLogin={login} />

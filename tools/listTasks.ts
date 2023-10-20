@@ -146,6 +146,6 @@ async function switchGitBranch(branch: string) {
   return stdout.split("\n").map((line) => line.trim());
 }
 
-listGitBranches().then(console.log).catch(console.error);
+//listGitBranches().then(console.log).catch(console.error);
 switchGitBranch('main').then(console.log).catch(console.error);
-switchGitBranch('feature/solution-tooling').then(console.log).catch(console.error);
+//switchGitBranch('feature/solution-tooling').then(console.log).catch(console.error);

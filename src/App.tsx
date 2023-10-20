@@ -207,7 +207,7 @@ export default function App() {
 
               */}
               {/* Lösung 8 - start */}
-              <ChatCreate onChatCreate={handleChatCreate} />
+
               {/* Lösung 8 - end */}
             </div>
           </Grid.Column>
@@ -279,10 +279,7 @@ export default function App() {
                         => verweise auf die Funktion 'handleAddChatUser'
                   */}
                   {/* Lösung 9 - start */}
-                  <UserInvite
-                    users={chatNoMembers}
-                    onAddChatUser={handleAddChatUser}
-                  />
+
                   {/* Lösung 9 - end */}
                 </div>
               </Grid.Column>

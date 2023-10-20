@@ -28,7 +28,7 @@ type TaskDefinition = {
 const taskPattern = /Aufgabe (\S+) -/;
 const taskNumberPattern = /\d+/;
 
-async function searchFiles(): Promise<Record<TaskId, TaskDefinition>> {
+async function searchTasksInFiles(): Promise<Record<TaskId, TaskDefinition>> {
   const files = await fg("**/*.tsx", { ignore: ["node_modules/**"] });
   const tasks: Record<TaskId, TaskDefinition> = {};
 
@@ -184,11 +184,11 @@ function extractLastTaskNr(tasks: Record<TaskId, TaskDefinition>): number {
 }
 
 async function main() {
-  const tasks = await searchFiles();
+  //await switchGitBranch("main");
+  const tasks = await searchTasksInFiles();
   const lastTaskNr = extractLastTaskNr(tasks);
 
   for (var taskNr = 0; taskNr <= lastTaskNr; taskNr++) {
-    
     const branchName = taskToBranchName(taskNr);
     console.log(branchName);
     //await deleteGitBranchIfItExists(branchName);
@@ -201,7 +201,7 @@ async function main() {
     }
 
     //await addAllFilesAndCommit(`apply task ${taskNr}`);
-   //await pushCurrentBranch();
+    //await pushCurrentBranch();
     //await switchGitBranch("main");
   }
 }

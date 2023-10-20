@@ -194,12 +194,16 @@ async function main() {
     await deleteGitBranchIfItExists(branchName);
     await createGitBranch(branchName);
 
-    const tasksToApply = filterTasksBiggerThan(tasks, taskNr);
-    for (const task of tasksToApply) {
-      await applyTask(task);
-    }
+    if (taskNr !== lastTaskNr) {
+      // only change all tasks other than the last one
+      // (because the last one is the final state = main branch)
+      const tasksToApply = filterTasksBiggerThan(tasks, taskNr);
+      for (const task of tasksToApply) {
+        await applyTask(task);
+      }
 
-    await addAllFilesAndCommit(`apply task ${taskNr}`);
+      await addAllFilesAndCommit(`apply task ${taskNr}`);
+    }
     await pushCurrentBranch();
     await switchGitBranch("main");
   }

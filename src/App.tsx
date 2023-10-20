@@ -128,11 +128,9 @@ export default function App() {
               Mit user.name kannst du im Code auf den namen zugreifen.
           */}
           {/* Lösung 2 - start */}
-          <Header size="large">Hallo {user.name}</Header>
-          {/* Lösung 2 - end */}
-          {/* Example 2
           <Header size="large">Hallo {'Aufgabe 2'}</Header>
-          Example 2 */}
+          {/* Lösung 2 - end */}
+          
 
           {/* Aufgabe 3 - Logout 
 
@@ -145,16 +143,6 @@ export default function App() {
               Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
           */}
           {/* Lösung 3 - start */}
-          <Button
-            className="br-16"
-            color="violet"
-            size="large"
-            onClick={logout}
-          >
-            Logout
-          </Button>
-          {/* Lösung 3 - end */}
-          {/* Example 3
           <Button 
             className="br-16" 
             color="violet" 
@@ -163,7 +151,8 @@ export default function App() {
           >
             Logout
           </Button>
-          Example 3 */}
+          {/* Lösung 3 - end */}
+          
         </div>
 
         <Grid divided className="grid-container bg-main">
@@ -189,7 +178,7 @@ export default function App() {
 
               */}
               {/* Lösung 4 - start */}
-              <ChatList chatList={chatList!} setActiveChat={setActiveChat} />
+
               {/* Lösung 4 - end */}
 
               {/* Aufgabe 8 - Chat erzeugen
@@ -207,7 +196,7 @@ export default function App() {
 
               */}
               {/* Lösung 8 - start */}
-              <ChatCreate onChatCreate={handleChatCreate} />
+
               {/* Lösung 8 - end */}
             </div>
           </Grid.Column>
@@ -234,7 +223,7 @@ export default function App() {
                       => auch hier kannst du auf die bereits bestehende 
                 */}
                 {/* Lösung 5 - start */}
-                <MessageList messages={messages} userList={userList} />
+
                 {/* Lösung 5 - end */}
 
                 {/* Aufgabe 6 - Nachricht schreiben
@@ -246,7 +235,7 @@ export default function App() {
                       => hier musst du auf die Methode namens 'handleSendMessage' verweisen
                 */}
                 {/* Lösung 6 - start */}
-                <MessageCreate onSendMessage={handleSendMessage} />
+
                 {/* Lösung 6 - end */}
 
               </Grid.Column>
@@ -264,7 +253,7 @@ export default function App() {
                         => verweise auf die bereits bestehende Liste mit demselben Namen.
                   */}
                   {/* Lösung 7 - start */}
-                  <UserList users={chatMembers} />
+
                   {/* Lösung 7 - end */}
 
                   <Header size="large">Hinzufügen</Header>
@@ -279,10 +268,7 @@ export default function App() {
                         => verweise auf die Funktion 'handleAddChatUser'
                   */}
                   {/* Lösung 9 - start */}
-                  <UserInvite
-                    users={chatNoMembers}
-                    onAddChatUser={handleAddChatUser}
-                  />
+
                   {/* Lösung 9 - end */}
                 </div>
               </Grid.Column>
@@ -308,11 +294,9 @@ export default function App() {
             Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht. 
         */}
         {/* Lösung 1 - start */}
-        <Login onLogin={login} />
-        {/* Lösung 1 - end */}
-        {/* Example 1
         <Login onLogin={alert('HIER')} />
-        Example 1 */}
+        {/* Lösung 1 - end */}
+        
       </Container>
     );
   }

@@ -1,10 +1,9 @@
-import fg from "fast-glob";
+import fg, { async } from "fast-glob";
 import fs from "fs";
 import * as os from "os";
 import replaceInFile from "replace-in-file";
 import { exec } from "child_process";
 import { promisify } from "util";
-
 
 const execPromise = promisify(exec);
 
@@ -19,13 +18,15 @@ type Example = {
 type Solution = { block: string; content: string };
 
 type TaskDefinition = {
-  id: TaskId;
+  id: TaskId; // Aufgabe 1.1
+  nr?: number; // 1
   file: Filename;
   example?: Example;
   solution?: Solution;
 };
 
 const taskPattern = /Aufgabe (\S+) -/;
+const taskNumberPattern = /\d+/;
 
 async function searchFiles(): Promise<Record<TaskId, TaskDefinition>> {
   const files = await fg("**/*.tsx", { ignore: ["node_modules/**"] });
@@ -42,6 +43,8 @@ async function searchFiles(): Promise<Record<TaskId, TaskDefinition>> {
         if (!tasks[taskId]) {
           tasks[taskId] = { id: taskId, file };
         }
+        const taskNumberMatch = taskId.match(taskNumberPattern);
+        tasks[taskId].nr = parseInt(taskNumberMatch[0]);
 
         for (const match of matches) {
           const example = await findExample(match, file);
@@ -97,44 +100,35 @@ function tmpFilePath() {
   return `${os.tmpdir()}/tasks.json`;
 }
 
-//searchFiles().then(console.log).catch(console.error);
-/*
-searchFiles()
-  .then(storeToTempFile)
-  .catch(console.error)
-  .finally(() => console.log(`stored to ${tmpFilePath()}`));
+async function applyTask(task: TaskDefinition) {
+  const file = task.file;
+  const solution = task.solution;
+  const example = task.example;
 
-*/
+  const replacementFromExample = example ? example.content : "";
 
+  if (solution) {
+    await replaceInFile.replaceInFile({
+      files: file,
+      from: solution.content,
+      to: replacementFromExample,
+    });
+  }
 
-
-async function cleanupFiles(tasks: Record<TaskId, TaskDefinition>) {
-  for (const task in tasks) {
-    const file = tasks[task].file;
-    const solution = tasks[task].solution;
-    const example = tasks[task].example;
-
-    const replacement = example ? example.content : '';
-
-    if (solution) {
-      await replaceInFile.replaceInFile({
-        files: file,
-        from: solution.content,
-        to: replacement,
-      });
-    }
-
-    if (example) {
-      await replaceInFile.replaceInFile({
-        files: file,
-        from: example.block,
-        to: '',
-      });
-    }
+  if (example) {
+    await replaceInFile.replaceInFile({
+      files: file,
+      from: example.block,
+      to: "",
+    });
   }
 }
 
-//searchFiles().then(cleanupFiles).catch(console.error);
+async function applyAllTasks(tasks: Record<TaskId, TaskDefinition>) {
+  for (const task in tasks) {
+    await applyTask(tasks[task]);
+  }
+}
 
 async function listGitBranches(): Promise<string[]> {
   const { stdout } = await execPromise("git branch -a");
@@ -146,6 +140,70 @@ async function switchGitBranch(branch: string) {
   return stdout.split("\n").map((line) => line.trim());
 }
 
-//listGitBranches().then(console.log).catch(console.error);
-switchGitBranch('main').then(console.log).catch(console.error);
-//switchGitBranch('feature/solution-tooling').then(console.log).catch(console.error);
+async function containsGitBranch(branch: string) {
+  const branches = await listGitBranches();
+  return branches.includes(branch);
+}
+
+async function deleteGitBranchIfItExists(branch: string) {
+  if (await containsGitBranch(branch)) {
+    await execPromise(`git branch -D ${branch}`);
+  }
+  if (await containsGitBranch("remotes/origin/" + branch)) {
+    await execPromise(`git push origin --delete ${branch}`);
+  }
+}
+
+async function createGitBranch(branch: string) {
+  await execPromise(`git switch -c ${branch}`);
+  await execPromise(`git push --set-upstream origin ${branch}`);
+}
+
+async function addAllFilesAndCommit(message: string) {
+  await execPromise(`git add .`);
+  await execPromise(`git commit -m "${message}"`);
+}
+
+async function pushCurrentBranch() {
+  await execPromise(`git push`);
+}
+
+function taskToBranchName(taskNr: number): string {
+  return `task/${taskNr}`;
+}
+
+function filterTasksBiggerThan(
+  tasks: Record<TaskId, TaskDefinition>,
+  nr: number
+): TaskDefinition[] {
+  return Object.values(tasks).filter((task) => task.nr > nr);
+}
+
+function extractLastTaskNr(tasks: Record<TaskId, TaskDefinition>): number {
+  return Math.max(...Object.values(tasks).map((task) => task.nr));
+}
+
+async function main() {
+  const tasks = await searchFiles();
+  const lastTaskNr = extractLastTaskNr(tasks);
+
+  for (var taskNr = 0; taskNr <= lastTaskNr; taskNr++) {
+    
+    const branchName = taskToBranchName(taskNr);
+    console.log(branchName);
+    //await deleteGitBranchIfItExists(branchName);
+    //await createGitBranch(branchName);
+
+    const tasksToApply = filterTasksBiggerThan(tasks, taskNr);
+    console.log(tasksToApply);
+    for (const task of tasksToApply) {
+      await applyTask(task);
+    }
+
+    //await addAllFilesAndCommit(`apply task ${taskNr}`);
+   //await pushCurrentBranch();
+    //await switchGitBranch("main");
+  }
+}
+
+main().catch(console.error);

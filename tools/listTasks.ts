@@ -184,25 +184,24 @@ function extractLastTaskNr(tasks: Record<TaskId, TaskDefinition>): number {
 }
 
 async function main() {
-  //await switchGitBranch("main");
+  await switchGitBranch("main");
   const tasks = await searchTasksInFiles();
-  const lastTaskNr = extractLastTaskNr(tasks);
+  const lastTaskNr = 0;//extractLastTaskNr(tasks);
 
   for (var taskNr = 0; taskNr <= lastTaskNr; taskNr++) {
+    console.log(`>> apply task ${taskNr}`);
     const branchName = taskToBranchName(taskNr);
-    console.log(branchName);
-    //await deleteGitBranchIfItExists(branchName);
-    //await createGitBranch(branchName);
+    await deleteGitBranchIfItExists(branchName);
+    await createGitBranch(branchName);
 
     const tasksToApply = filterTasksBiggerThan(tasks, taskNr);
-    console.log(tasksToApply);
     for (const task of tasksToApply) {
       await applyTask(task);
     }
 
-    //await addAllFilesAndCommit(`apply task ${taskNr}`);
-    //await pushCurrentBranch();
-    //await switchGitBranch("main");
+    await addAllFilesAndCommit(`apply task ${taskNr}`);
+    await pushCurrentBranch();
+    await switchGitBranch("main");
   }
 }
 

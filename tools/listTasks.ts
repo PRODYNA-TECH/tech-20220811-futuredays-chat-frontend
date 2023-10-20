@@ -186,7 +186,7 @@ function extractLastTaskNr(tasks: Record<TaskId, TaskDefinition>): number {
 async function main() {
   await switchGitBranch("main");
   const tasks = await searchTasksInFiles();
-  const lastTaskNr = 0;//extractLastTaskNr(tasks);
+  const lastTaskNr = extractLastTaskNr(tasks);
 
   for (var taskNr = 0; taskNr <= lastTaskNr; taskNr++) {
     console.log(`>> apply task ${taskNr}`);

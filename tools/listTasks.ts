@@ -1,6 +1,5 @@
-import fg, { async } from "fast-glob";
+import fg from "fast-glob";
 import fs from "fs";
-import * as os from "os";
 import replaceInFile from "replace-in-file";
 import { exec } from "child_process";
 import { promisify } from "util";
@@ -89,15 +88,6 @@ async function findSolution(
   if (matches) {
     return { block: matches[0], content: matches[1] };
   }
-}
-
-async function storeToTempFile(tasks: Record<TaskId, TaskDefinition>) {
-  const contents = JSON.stringify(tasks, null, 2);
-  await fs.promises.writeFile(tmpFilePath(), contents);
-}
-
-function tmpFilePath() {
-  return `${os.tmpdir()}/tasks.json`;
 }
 
 async function applyTask(task: TaskDefinition) {

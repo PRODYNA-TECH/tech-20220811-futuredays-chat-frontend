@@ -1,6 +1,6 @@
 {
   "name": "React Dev Container",
-  "image": "node:14",
+  "image": "node:18",
   "extensions": [
     "dbaeumer.vscode-eslint",
     "esbenp.prettier-vscode"

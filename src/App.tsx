@@ -86,6 +86,7 @@ export default function App() {
 
   // TODO: Aufgabe 1 - login
   async function login(username: string) {
+    alert("Hallo " + username + ". Du hast nun die erste Aufgabe gelöst.");
     const userList = await listUsersAsync();
     const filtered = userList.filter((user) => user.name === username);
     if (filtered.length > 0) {
@@ -113,9 +114,9 @@ export default function App() {
           {/* TODO: Aufgabe 2 - Benutzername
               Wenn der Benutzer bekannt ist - das wird oben im if(user) überprüft - wird nun dieser Teil eingeblendet.
               Deswegen sieh die Seite nun komplett anders aus.
-          
-              Stelle nun den Benutzername dar: Hallo <BENUTZERNAME>.  
-              <BENUTZERNAME> steht für den Namen, den du für die Anmeldung genutzt hast. 
+
+              Stelle nun den Benutzername dar: Hallo <BENUTZERNAME>.
+              <BENUTZERNAME> steht für den Namen, den du für die Anmeldung genutzt hast.
 
               Hinweis:
               Du brauchst nur 'Aufgabe 2' mit dem richtigen Code zu ersetzen.
@@ -124,11 +125,11 @@ export default function App() {
           */}
           <Header size="large">Hallo {'Aufgabe 2'}</Header>
           {/* TODO: Aufgabe 3 - Logout
-              Nun möchten wir uns wieder Abmelden können. 
+              Nun möchten wir uns wieder Abmelden können.
 
               Im Moment passiert noch nichts, ausser dass wieder ein Fenster erscheint.
               Ändere den Code so, dass die Methode mit dem namen 'logout' aufgerufen wird, wenn du den Kopf drückst.
-              
+
               Hinweis:
               Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht.
           */}
@@ -150,7 +151,7 @@ export default function App() {
 
                   Deine Aufgabe ist es nun die <ChatList .../> unter <Header .../> einzufügen. Die ... sind bloss Plazuhalter für diese Beschreibung.
                   ChatList ist eine vorgefertigter Baustein - in der Fachsprache 'Komponente' genannt - welchen du benutzen kannst.
-                  
+
                   Damit das Programm dann zufrieden ist, musst du dem Baustein noch zwei Eigenschaften, bei den ..., mitgeben:
                   - chatList: ist eine Liste mit den Chate, bei welchen du dabei bist
                     => füge hier die bereits existierende liste namens chatList ein - ja, die heissen gleich
@@ -169,7 +170,7 @@ export default function App() {
                   Auch hier müssen wir, bei den ..., eine Eigenschaft hinschreiben:
                   - onChatCreate: wir aufgerufen wenn der benutzer den namen für den neuen Chat eingegeben hat und auf 'Erstellen' geklickt hat
                     => verweise hier auf die bestehende Methode handleChatCreate
-                  
+
                   Hinweis:
                   Auch das hast du bereits bei ChatList gemacht ;)
               */}
@@ -238,13 +239,13 @@ export default function App() {
       <Container>
         {/* TODO: Aufgabe 1 - Login
             Hier wird jetzt das Fenster angezeigt, sobald du den Knopf drückst.
-            
+
             Ändere den Inhalt in {} so, dass die Methode mit dem Namen 'login' aufgerufen wird und nicht mehr alert.
 
             Hinweis:
             Wenn du den Knopf drückst, dann wird die Methode aufgerufen, welche bei onCLick={HIER} steht.
         */}
-        <Login onLogin={(name) => alert("Hallo " + name)} />
+        <Login onLogin={(name) => login(name)} />
       </Container>
     );
   }

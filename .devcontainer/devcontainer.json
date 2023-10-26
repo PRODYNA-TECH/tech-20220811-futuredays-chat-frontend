@@ -1,0 +1,23 @@
+{
+  "name": "React Dev Container",
+  "image": "node:14",
+  "extensions": [
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode"
+  ],
+  "settings": {
+    "terminal.integrated.shell.linux": "/bin/bash"
+  },
+  "appPort": [3000],
+  "postCreateCommand": "npm install",
+  "workspaceFolder": "/workspace",
+  "mounts": [
+    "source=${localWorkspaceFolder}/,target=/workspace,type=bind,consistency=cached"
+  ],
+  "runArgs": [
+    "--network=host"
+  ],
+  "containerEnv": {
+    "NODE_ENV": "development"
+  }
+}

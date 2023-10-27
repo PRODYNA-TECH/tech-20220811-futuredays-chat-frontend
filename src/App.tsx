@@ -24,7 +24,7 @@ export default function App() {
   const [user, setUser] = useState<User>();
   const [userList, setUserList] = useState<User[]>();
   const [activeChat, setActiveChat] = useState<Chat>();
-  const [chatList, setChatList] = useState<Chat[]>()
+  const [chatList, setChatList] = useState<Chat[]>();
   const [chatMembers, setChatMembers] = useState<User[]>();
   const [chatNoMembers, setChatNoMembers] = useState<User[]>();
   const [messages, setMessages] = useState<Message[]>();
@@ -46,8 +46,12 @@ export default function App() {
   useEffect(() => {
     if (activeChat) {
       listUsersAsync().then((users) => {
-        setChatMembers(users.filter((user) => activeChat.userIds.includes(user.id)))
-        setChatNoMembers(users.filter((user) => !activeChat.userIds.includes(user.id)))
+        setChatMembers(
+          users.filter((user) => activeChat.userIds.includes(user.id))
+        );
+        setChatNoMembers(
+          users.filter((user) => !activeChat.userIds.includes(user.id))
+        );
       });
       listChatMessagesAsync(activeChat?.id).then((messages) =>
         setMessages(messages)

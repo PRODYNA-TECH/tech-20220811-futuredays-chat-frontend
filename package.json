@@ -25,7 +25,8 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "generate": "openapi-generator-cli generate -i openapi.yml -g typescript-fetch -o src/api-client"
+    "generate": "openapi-generator-cli generate -i openapi.yml -g typescript-fetch -o src/api-client",
+    "build-solutions": "ts-node --cwd tools buildSolutions.ts"
   },
   "eslintConfig": {
     "extends": [
@@ -50,6 +51,9 @@
     "@types/lodash": "^4.14.188",
     "@vitejs/plugin-react": "^4.1.0",
     "eslint-plugin-react-hooks": "^4.6.0",
+    "fast-glob": "^3.3.1",
+    "replace-in-file": "^7.0.1",
+    "ts-node": "^10.9.1",
     "vite": "^4.4.10"
   }
 }

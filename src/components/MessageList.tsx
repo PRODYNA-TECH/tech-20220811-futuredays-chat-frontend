@@ -1,3 +1,4 @@
+import React from "react";
 import { Feed } from "semantic-ui-react";
 import { Message, User } from "../api-client";
 import Avatar from "./Avatar";
